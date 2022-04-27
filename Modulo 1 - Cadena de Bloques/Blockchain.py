@@ -46,11 +46,26 @@ class Blockchain:
                 new_proof += 1
         return new_proof
     
+    #creacion del hash 
+    def hash(self, block):
+        encoded_block = json.dump(block, sort_keys = True).encode()
+        return hashlib.sha256(encoded_block).hexdigest()
     
-        
-        
-        
-    
-        
+    # validador de la cadena 
+    def is_chain_valid(self, chain):
+        previous_block = chain[0]
+        block_index = 1
+        while block_index < len(chain):
+            current_block = chain[block_index]
+            if current_block["previous_hash"] != self.hash(previous_block):
+                return False 
+            previous_proof = previous_block["proof"]
+            proof = current_block["proof"]
+            hash_operation = hashlib.sha256(str(proof**2 - previous_proof**2).encod()).hexdigest()
+            if hash_operation[:4] != "0000":
+                return False
+            previous_block = current_block
+            block_index += 1
+            
 #Parte 2 - Minado de un Bloque de la Cadena
         
