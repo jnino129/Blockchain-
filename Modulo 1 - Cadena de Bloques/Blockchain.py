@@ -68,4 +68,46 @@ class Blockchain:
             block_index += 1
             
 #Parte 2 - Minado de un Bloque de la Cadena
-        
+
+#Desarrollo de una WebApp 
+app = Flask(_name_)
+
+#Crear Blockchain
+blockchain = Blockchain()
+
+#Minar un Nuevo Bloque      
+@app.route("/mine_block", methods=["GET"])
+def mine_block():
+    previous_block = blockchain.get_previous_block()
+    previous_proof = previous_block["proof"]
+    proof = blockchain.proof_of_work(previous_proof)
+    previous_hash = blockchain.hash(previous_block)
+    block = blockchain.create_block(proof, previous_hash)
+    respones = {"message" : "Se ha minado un bloque de forma correcta!",
+                "index": block["index"],
+                "timestamp": block["timestamp"],
+                "proof": block["proof"],
+                "previous_hash": block["previous_hash"]}
+    return jsonify(respones), 200
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
