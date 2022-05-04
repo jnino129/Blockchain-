@@ -39,7 +39,7 @@ class Blockchain:
         new_proof = 1
         check_proof = False
         while check_proof is False:
-            hash_operation = hashlib.sha256(str(new_proof**2 - previous_proof**2).encod()).hexdigest()
+            hash_operation = hashlib.sha256(str(new_proof**2 - previous_proof**2).encode()).hexdigest()
             if hash_operation[:4] == "0000":
                 check_proof = True
             else:
@@ -48,7 +48,7 @@ class Blockchain:
     
     #creacion del hash 
     def hash(self, block):
-        encoded_block = json.dump(block, sort_keys = True).encode()
+        encoded_block = json.dumps(block, sort_keys = True).encode()
         return hashlib.sha256(encoded_block).hexdigest()
     
     # validador de la cadena 
@@ -70,7 +70,8 @@ class Blockchain:
 #Parte 2 - Minado de un Bloque de la Cadena
 
 #Desarrollo de una WebApp 
-app = Flask(_name_)
+app = Flask(__name__)
+app.config["JSONIFY_PRETTYPRINT_REGULAR"] = False 
 
 #Crear Blockchain
 blockchain = Blockchain()
@@ -98,6 +99,8 @@ def get_chain():
     return jsonify(response), 200
 
 
+# Ejecutar la app
+app.run(host=("0.0.0.0"), port=(5000))
     
 
     
